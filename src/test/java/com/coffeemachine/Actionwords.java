@@ -11,134 +11,138 @@ import static junit.framework.Assert.assertTrue;
 import cucumber.api.DataTable;
 
 public class Actionwords {
-    public CoffeeMachine sut = new CoffeeMachine();
-    public boolean handleWater = false;
-    public boolean handleBeans = false;
-    public boolean handleGrounds = false;
+	public CoffeeMachine sut = new CoffeeMachine();
+	public boolean handleWater = false;
+	public boolean handleBeans = false;
+	public boolean handleGrounds = false;
+	
+	public void iStartTheCoffeeMachineUsingLanguageLang() {
+		iStartTheCoffeeMachineUsingLanguageLang("en");
+	}
 
+	public void iStartTheCoffeeMachineUsingLanguageLang(String lang) {
+		sut.start(lang);
+	}
 
-    public void iStartTheCoffeeMachineUsingLanguageLang() {
-        iStartTheCoffeeMachineUsingLanguageLang("en");
-    }
+	public void iShutdownTheCoffeeMachine() {
+		sut.stop();
+	}
 
-    public void iStartTheCoffeeMachineUsingLanguageLang(String lang) {
-        sut.start(lang);
-    }
+	public void messageMessageShouldBeDisplayed(String message) {
+		assertEquals(sut.message(), message);
+	}
 
-    public void iShutdownTheCoffeeMachine() {
-        sut.stop();
-    }
+	public void coffeeShouldBeServed() {
+		assertTrue(sut.coffeeServed);
+	}
 
-    public void messageMessageShouldBeDisplayed(String message) {
-        assertEquals(sut.message(), message);
-    }
+	public void coffeeShouldNotBeServed() {
+		assertFalse(sut.coffeeServed);
+	}
 
-    public void coffeeShouldBeServed() {
-        assertTrue(sut.coffeeServed);
-    }
+	public void iTakeACoffee() {
+		sut.takeCoffee();
+	}
 
-    public void coffeeShouldNotBeServed() {
-        assertFalse(sut.coffeeServed);
-    }
+	public void iEmptyTheCoffeeGrounds() {
+		sut.emptyGrounds();
+	}
 
-    public void iTakeACoffee() {
-        sut.takeCoffee();
-    }
+	public void iFillTheBeansTank() {
+		sut.fillBeans();
+	}
 
-    public void iEmptyTheCoffeeGrounds() {
-        sut.emptyGrounds();
-    }
+	public void iFillTheWaterTank() {
+		sut.fillTank();
+	}
 
-    public void iFillTheBeansTank() {
-        sut.fillBeans();
-    }
+	public void iTakeCoffeeNumberCoffees(int coffeeNumber) {
+		while ((coffeeNumber > 0)) {
+			iTakeACoffee();
+			coffeeNumber = coffeeNumber - 1;
 
-    public void iFillTheWaterTank() {
-        sut.fillTank();
-    }
+			if (handleWater) {
+				iFillTheWaterTank();
+			}
 
-    public void iTakeCoffeeNumberCoffees(int coffeeNumber) {
-        while ((coffeeNumber > 0)) {
-            iTakeACoffee();
-            coffeeNumber = coffeeNumber - 1;
+			if (handleBeans) {
+				iFillTheBeansTank();
+			}
 
-            if (handleWater) {
-                iFillTheWaterTank();
-            }
+			if (handleGrounds) {
+				iEmptyTheCoffeeGrounds();
+			}
+		}
+	}
 
-            if (handleBeans) {
-                iFillTheBeansTank();
-            }
+	public void theCoffeeMachineIsStarted() {
+		iStartTheCoffeeMachineUsingLanguageLang();
+	}
 
-            if (handleGrounds) {
-                iEmptyTheCoffeeGrounds();
-            }
-        }
-    }
+	public void fiftyCoffeesHaveBeenTakenWithoutFillingTheTank() {
+		iTakeCoffeeNumberCoffees(30);
+		iFillTheBeansTank();
+		iEmptyTheCoffeeGrounds();
+		iTakeCoffeeNumberCoffees(20);
+		iFillTheBeansTank();
+		iEmptyTheCoffeeGrounds();
+	}
 
-    public void theCoffeeMachineIsStarted() {
-        iStartTheCoffeeMachineUsingLanguageLang();
-    }
+	public void thirtyEightCoffeesAreTakenWithoutFillingBeans() {
+		iTakeCoffeeNumberCoffees(37);
+		iEmptyTheCoffeeGrounds();
+		iFillTheWaterTank();
+		iTakeACoffee();
+	}
 
-    public void fiftyCoffeesHaveBeenTakenWithoutFillingTheTank() {
-        iTakeCoffeeNumberCoffees(30);
-        iFillTheBeansTank();
-        iEmptyTheCoffeeGrounds();
-        iTakeCoffeeNumberCoffees(20);
-        iFillTheBeansTank();
-        iEmptyTheCoffeeGrounds();
-    }
+	public void iHandleWaterTank() {
+		handleWater = true;
+	}
 
-    public void thirtyEightCoffeesAreTakenWithoutFillingBeans() {
-        iTakeCoffeeNumberCoffees(37);
-        iEmptyTheCoffeeGrounds();
-        iFillTheWaterTank();
-        iTakeACoffee();
-    }
+	public void iHandleBeans() {
+		handleBeans = true;
+	}
 
-    public void iHandleWaterTank() {
-        handleWater = true;
-    }
+	public void iHandleCoffeeGrounds() {
+		handleGrounds = true;
+	}
 
-    public void iHandleBeans() {
-        handleBeans = true;
-    }
+	public void iHandleEverythingExceptTheWaterTank() {
+		iHandleCoffeeGrounds();
+		iHandleBeans();
+	}
 
-    public void iHandleCoffeeGrounds() {
-        handleGrounds = true;
-    }
+	public void iHandleEverythingExceptTheBeans() {
+		iHandleWaterTank();
+		iHandleCoffeeGrounds();
+	}
 
-    public void iHandleEverythingExceptTheWaterTank() {
-        iHandleCoffeeGrounds();
-        iHandleBeans();
-    }
+	public void iHandleEverythingExceptTheGrounds() {
+		iHandleWaterTank();
+		iHandleBeans();
+	}
 
-    public void iHandleEverythingExceptTheBeans() {
-        iHandleWaterTank();
-        iHandleCoffeeGrounds();
-    }
+	public void displayedMessageIs(String freeText) {
+		messageMessageShouldBeDisplayed(freeText);
+	}
 
-    public void iHandleEverythingExceptTheGrounds() {
-        iHandleWaterTank();
-        iHandleBeans();
-    }
+	public void iSwitchToSettingsMode() {
+		sut.showSettings();
+	}
 
-    public void displayedMessageIs(String freeText) {
-        messageMessageShouldBeDisplayed(freeText);
-    }
+	public void settingsShouldBe(DataTable datatable) {
+		List<List<String>> rawTable = datatable.raw();
+		Map<String, String> settings = new HashMap<String, String>();
 
-    public void iSwitchToSettingsMode() {
-        sut.showSettings();
-    }
+		settings.put(rawTable.get(0).get(0), rawTable.get(0).get(1));
+		settings.put(rawTable.get(1).get(0), rawTable.get(1).get(1));
 
-    public void settingsShouldBe(DataTable datatable) {
-        List<List<String>> rawTable = datatable.raw();
-        Map<String,String> settings = new HashMap<String, String>();
+		assertEquals(settings, sut.getSettings());
+	}
 
-        settings.put(rawTable.get(0).get(0), rawTable.get(0).get(1));
-        settings.put(rawTable.get(1).get(0), rawTable.get(1).get(1));
+	public void aDescalingNotificationIsDisplayed() {
+		assertTrue(sut.isDescalingNeeded());
+		
+	}
 
-
-        assertEquals(settings, sut.getSettings());
-    }
 }

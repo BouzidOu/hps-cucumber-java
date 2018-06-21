@@ -51,7 +51,7 @@ public class StepDefinitions {
         actionwords.iFillTheWaterTank();
     }
 
-    @Given("^I take \"(.*)\" coffees$")
+    @When("^I take \"(.*)\" coffees$")
     public void iTakeCoffeeNumberCoffees(int coffeeNumber) {
         actionwords.iTakeCoffeeNumberCoffees(coffeeNumber);
     }
@@ -104,5 +104,10 @@ public class StepDefinitions {
     @Then("^settings should be:$")
     public void settingsShouldBe(DataTable datatable) {
         actionwords.settingsShouldBe(datatable);
+    }
+
+    @Then("^a descaling notification is displayed$")
+    public void aDescalingNotificationIsDisplayed() {
+        actionwords.aDescalingNotificationIsDisplayed();
     }
 }
